@@ -21,20 +21,34 @@ class Main extends CI_Controller
 	 */
 	public function index(): void
 	{
-		$this->load->library('form_validation');
-		$this->form_validation->set_rules('title', 'Title', 'required');
-		$this->form_validation->set_rules('category_id', 'Category', 'required');
+			$this->load->library('form_validation');
+			$data['title'] = 'Main Page';
+			$data['items'] = $this->item_model->getItem();
+			$data['categories'] = $this->category_model->getCategory();
 
-		$data['title'] = 'Main Page';
-		$data['items'] = $this->item_model->getItem();
-		$data['categories'] = $this->category_model->getCategory();
-
-		if ($this->form_validation->run())
-		{
-			$this->item_model->setItem();
 			$this->mainIndexViewLoad($data);
+	}
+
+	public function addItem()
+	{
+		if ($this->input->method() == 'post') {
+			$this->load->library('form_validation');
+			$this->form_validation->set_rules('title', 'Title', 'required');
+			$this->form_validation->set_rules('category_id', 'Category', 'required');
+
+			if ($this->form_validation->run()) {
+				$this->item_model->setItem();
+				$data = $this->item_model->getItem();
+				$items = [];
+				foreach ($data as $item) {
+					$item['status'] = Status_helper::isBuy($item['status']);
+					$item['category_id'] = Status_helper::whichCategory($item['category_id']);
+					$item['time'] = Status_helper::whichTime($item['time']);
+					$items[] = $item;
+				}
+				echo json_encode($items);
+			}
 		}
-		$this->mainIndexViewLoad($data);
 	}
 
 	/**

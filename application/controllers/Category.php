@@ -33,14 +33,10 @@ class Category extends CI_Controller
 		$this->categoryIndexViewLoad($data);
 	}
 
-	/**
-	 * @param array $data
-	 * @return void
-	 */
 	public function categoryIndexViewLoad(array $data): void
 	{
 		$this->load->view('templates/header', $data);
-		$this->load->view('category/index', $data);
+		$this->load->view(base_url().'category/index', $data);
 		$this->load->view('templates/footer');
 	}
 
