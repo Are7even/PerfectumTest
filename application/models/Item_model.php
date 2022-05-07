@@ -22,6 +22,18 @@ class Item_model extends CI_Model
 	}
 
 	/**
+	 * @param $itemId
+	 * @return array
+	 */
+	public function getItemById($itemId): array
+	{
+		if ($query = $this->db->get_where('item','id = '.$itemId)) {
+			return $query->row_array();
+		}
+		return [];
+	}
+
+	/**
 	 * @return mixed
 	 */
 	public function setItem(): mixed
@@ -30,6 +42,7 @@ class Item_model extends CI_Model
 		$data = [
 			'title' => $this->input->post('title'),
 			'category_id' => $this->input->post('category_id'),
+			'time' => time(),
 		];
 
 		return $this->db->insert('item', $data);

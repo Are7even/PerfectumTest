@@ -20,24 +20,27 @@ class Status_helper
 	 * @param int $category_id
 	 * @return string
 	 */
-	static function whichCategory(int $category_id) : string
+	static function whichCategory(int $category_id): string
 	{
-		if (!$category_id)
-			return 'non category';
+		$categoryModel = new Category_model();
+		if ($category_id) {
+			$model = $categoryModel->getCategoryById($category_id);
+			return $model['title'];
+		}
 
-		return 'dodelay';
+		return 'non category';
 	}
 
 	/**
 	 * @param int $timeCode
 	 * @return string
 	 */
-	static function whichTime(int $timeCode) : string
+	static function whichTime(int $timeCode): string
 	{
 		if (!$timeCode)
 			return 'non time';
 
-		return 'dodelay';
+		return date('d.m.y', $timeCode);
 	}
 
 	/**

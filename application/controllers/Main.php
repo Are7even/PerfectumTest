@@ -69,6 +69,8 @@ class Main extends CI_Controller
 	public function updateStatusItem(int $itemId): void
 	{
 		$this->item_model->updateStatus($itemId);
+		$data = $this->item_model->getItemById($itemId);
+		echo json_encode(['status' => Status_helper::isBuy($data['status'])]);
 	}
 
 	/**
@@ -78,5 +80,6 @@ class Main extends CI_Controller
 	public function deleteItem(int $itemId): void
 	{
 		$this->item_model->deleteItem($itemId);
+		echo json_encode([]);
 	}
 }

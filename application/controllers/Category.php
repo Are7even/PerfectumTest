@@ -17,7 +17,7 @@ class Category extends CI_Controller
 	/**
 	 * @return void
 	 */
-	public function index(): void
+	public function index()
 	{
 		$this->load->library('form_validation');
 		$this->form_validation->set_rules('title', 'Title', 'required');
@@ -28,15 +28,15 @@ class Category extends CI_Controller
 		if ($this->form_validation->run())
 		{
 			$this->category_model->setCategory();
-			$this->categoryIndexViewLoad($data);
+			return $this->categoryIndexViewLoad($data);
 		}
-		$this->categoryIndexViewLoad($data);
+		return $this->categoryIndexViewLoad($data);
 	}
 
 	public function categoryIndexViewLoad(array $data): void
 	{
 		$this->load->view('templates/header', $data);
-		$this->load->view(base_url().'category/index', $data);
+		$this->load->view('category/index', $data);
 		$this->load->view('templates/footer');
 	}
 
@@ -46,7 +46,9 @@ class Category extends CI_Controller
 	 */
 	public function updateStatusCategory(int $categoryId): void
 	{
-		$this->category_model->updateStatus($categoryId);
+		$this->category_model->updateCategory($categoryId);
+		$data = $this->category_model->getCategoryById($categoryId);
+		echo json_encode(['status' => Status_helper::isActive($data['status'])]);
 	}
 
 	/**
@@ -55,6 +57,7 @@ class Category extends CI_Controller
 	 */
 	public function deleteCategory(int $categoryId): void
 	{
-		$this->category_model->deleteItem($categoryId);
+		$this->category_model->deleteCategory($categoryId);
+		echo json_encode([]);
 	}
 }

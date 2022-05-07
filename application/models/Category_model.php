@@ -17,6 +17,17 @@ class Category_model extends CI_Model
 		return [];
 	}
 
+	public function getCategoryById($categoryId): array
+	{
+		if ($query = $this->db->get_where('category','id = '.$categoryId)) {
+			if ($query->row_array() === NULL)
+				return ['title' => 'no category'];
+
+			return $query->row_array();
+		}
+		return ['title' => 'no category'];
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -47,7 +58,7 @@ class Category_model extends CI_Model
 	 * @param $categoryId
 	 * @return mixed
 	 */
-	public function deleteItem($categoryId): mixed
+	public function deleteCategory($categoryId): mixed
 	{
 		return $this->db->delete('category', 'id ='.$categoryId);
 	}

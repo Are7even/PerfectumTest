@@ -3,11 +3,12 @@
 <div class="container">
 	<div id="items">
 		<?php foreach ($items as $item) { ?>
-			<div class="row">
+			<div class="row" id="js-item">
+				<input id="js-itemId" type="hidden" value="<?php echo $item['id'] ?>"/>
 				<div class="col mb-5">
 					<h4><?php echo $item['title'] ?></h4>
 				</div>
-				<div class="col">
+				<div class="col" id="js-status-label">
 					<h4><?php echo Status_helper::isBuy($item['status']) ?></h4>
 				</div>
 				<div class="col">
@@ -18,11 +19,11 @@
 				</div>
 				<?php if (!$item['status']) { ?>
 					<div class="col">
-						<button type="button" class="btn btn-success">✔</button>
+						<button id="js-status" type="button" class="btn btn-success">✔</button>
 					</div>
 				<?php } ?>
 				<div class="col">
-					<button type="button" class="btn btn-danger">x</button>
+					<button id="js-delete" type="button" class="btn btn-danger">x</button>
 				</div>
 			</div>
 		<?php } ?>
