@@ -1,9 +1,34 @@
 <?php
 ?>
 <div class="container">
+	<div class="row">
+		<div class="col-md-5 mb-3">
+			<label for="country">Status</label>
+			<select class="custom-select d-block w-100" id="js-status-filter" required="">
+				<option value="all">All</option>
+				<option value="status1">bought</option>
+				<option value="status0">need to buy</option>
+			</select>
+			<div class="invalid-feedback">
+				Please select a valid country.
+			</div>
+		</div>
+		<div class="col-md-4 mb-3">
+			<label for="state">Category</label>
+			<select class="custom-select d-block w-100" required="" id="js-category-filter">
+				<option value="all">All</option>
+				<?php foreach ($categories as $category) { ?>
+					<option value="<?php echo $category['id'] ?>"><?php echo $category['title'] ?></option>
+				<?php } ?>
+			</select>
+			<div class="invalid-feedback">
+				Please provide a valid state.
+			</div>
+		</div>
+	</div>
 	<div id="items">
 		<?php foreach ($items as $item) { ?>
-			<div class="row" id="js-item">
+			<div class="row <?php echo $item['category_id'] ?> status<?php echo $item['status'] ?>" id="js-item">
 				<input id="js-itemId" type="hidden" value="<?php echo $item['id'] ?>"/>
 				<div class="col mb-5">
 					<h4><?php echo $item['title'] ?></h4>
@@ -43,7 +68,7 @@
 				<!--			<input type="text" class="form-control" id="category" placeholder="" value="" required="">-->
 				<select class="custom-select d-block w-100" id="category_id" name="category_id" required="">
 					<?php foreach ($categories as $category) { ?>
-						<option><?php echo $category['id'] ?></option>
+						<option value="<?php echo $category['id'] ?>"><?php echo $category['title'] ?></option>
 					<?php } ?>
 				</select>
 				<div class="invalid-feedback">
@@ -53,4 +78,5 @@
 		</div>
 		<input type="submit" name="submit" value="add item">
 	</form>
+	<a class="btn btn-outline-primary m-5" href="<?php echo base_url()?>category">Create category</a>
 </div>
